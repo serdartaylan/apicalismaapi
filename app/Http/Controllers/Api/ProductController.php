@@ -37,8 +37,15 @@ class ProductController extends ApiController
      */
     public function store(Request $request)
     {
-        $input = $request->all();
-        $product = Product::create($input);
+        //$input = $request->all();
+
+        $product = new Product;
+        $product->name = $request->name;
+        $product->slug = $request->slug;
+        $product->price = $request->price;
+        $product->description = $request->description;
+        $product->save();
+
         return $this->createAt(ProductResource::make($product), ['msg' => 'ürün eklendi']);
     }
 
