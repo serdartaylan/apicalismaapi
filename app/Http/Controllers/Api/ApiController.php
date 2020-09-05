@@ -72,6 +72,17 @@ class ApiController extends Controller
         return $this->apiResponse(null, $data);
     }
 
+    public function validError($errors = null, $data = [])
+    {
+        $this->success = false;
+        $this->errors = $errors;
+
+        if (!isset($data['code']))
+            $data['code'] = 422; // via:cg
+
+        return $this->apiResponse(null, $data);
+    }
+
     public function apiResponse($resource, $data = [])
     {
         if (isset($data['code']))

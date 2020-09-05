@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Requests\ProductStoreRequest;
 use App\Http\Resources\ProductsResource;
 use App\Http\Resources\ProductResource;
 use App\Product;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ProductController extends ApiController
 {
@@ -35,9 +37,10 @@ class ProductController extends ApiController
      * @param \Illuminate\Http\Request $request
      * @return ProductResource
      */
-    public function store(Request $request)
+    public function store(ProductStoreRequest $request)
     {
-        //$input = $request->all();
+
+        Validator::make($request->all(), []);
 
         $product = new Product;
         $product->name = $request->name;
