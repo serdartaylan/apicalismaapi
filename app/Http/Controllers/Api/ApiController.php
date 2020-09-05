@@ -34,7 +34,7 @@ class ApiController extends Controller
         $this->success = false;
         $this->code = 404;
 
-        if (is_object($resource) && $resource->count() == 1) {
+        if (is_object($resource)) {
             $this->code = 200;
             $this->success = true;
         } else {
@@ -59,6 +59,12 @@ class ApiController extends Controller
 
     }
 
+    public function showError($data = [])
+    {
+        $this->success = false;
+        return $this->apiResponse(null, $data);
+    }
+
     public function apiResponse($resource, $data = [])
     {
         if (isset($data['code']))
@@ -78,9 +84,11 @@ class ApiController extends Controller
             $respond->msg = $this->msg;
 
         $respond->time = time();
-        $respond->errors = $this->errors;
 
-        if (is_object($resource) && $resource->count() > 0)
+        if ($this->errors != null)
+            $respond->errors = $this->errors;
+
+        if (is_object($resource))
             $respond->result = $resource;
 
         return response()->json($respond, ($this->code != null) ? $this->code : 200);

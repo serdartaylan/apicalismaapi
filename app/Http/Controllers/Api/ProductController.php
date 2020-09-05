@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Resources\ProductsResource;
 use App\Http\Resources\ProductResource;
 use App\Product;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
 class ProductController extends ApiController
@@ -12,7 +13,7 @@ class ProductController extends ApiController
     /**
      * Display a listing of the resource.
      *
-     * @return ProductsResource
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index(Request $request)
     {
@@ -43,11 +44,25 @@ class ProductController extends ApiController
      * Display the specified resource.
      *
      * @param \App\Product $product
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Product $product)
+    public function showok(Product $product)
     {
+        // TODO : NotFoundHttpException
         return $this->showOne(ProductResource::collection(Product::find($product))->resource);
+    }
+
+    public function show($id)
+    {
+        try {
+            $product = Product::find($id);
+            if ($product)
+                return $this->showOne(ProductResource::make($product));
+        } catch (ModelNotFoundException $exception) {
+            //
+        }
+
+        return $this->showError(['code' => 404, 'msg' => 'Ürün Bulunamadı']);
     }
 
     /**
