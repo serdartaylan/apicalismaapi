@@ -46,12 +46,6 @@ class ProductController extends ApiController
      * @param \App\Product $product
      * @return \Illuminate\Http\JsonResponse
      */
-    public function showok(Product $product)
-    {
-        // TODO : NotFoundHttpException
-        return $this->showOne(ProductResource::collection(Product::find($product))->resource);
-    }
-
     public function show($id)
     {
         try {

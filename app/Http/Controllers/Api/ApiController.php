@@ -12,7 +12,6 @@ class ApiController extends Controller
     public $msg = null;
     public $errors = null;
 
-
     public function showAll($resource, $data = [])
     {
         $this->success = false;
@@ -27,7 +26,6 @@ class ApiController extends Controller
 
         return $this->apiResponse($resource, $data);
     }
-
 
     public function showOne($resource, $data = [])
     {
