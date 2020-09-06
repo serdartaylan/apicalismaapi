@@ -31,15 +31,22 @@ class ApiController extends Controller
     {
         $this->success = false;
         $this->code = 404;
+
         if (is_object($resource)) {
             $this->code = 200;
             $this->success = true;
+
+            if (isset($data['msg']))
+                $this->msg = $data['msg'];
+
         } else {
-            $this->msg = 'Detail Error.';
+            if (isset($data['msg']))
+                $this->msg = $data['msg'];
+            else
+                $this->msg = 'Detail Error.';
         }
 
-        return $this->apiResponse($resource = null, $data);
-
+        return $this->apiResponse($resource, $data);
     }
 
     public function createAt($resource = null, $data = [])
@@ -58,18 +65,30 @@ class ApiController extends Controller
 
     public function updateAt($resource = null, $data = [])
     {
+        $this->success = false;
+        $this->code = 404;
+        if (is_object($resource)) {
+            $this->code = 200;
+            $this->success = true;
+        } else {
+            $this->msg = 'update Error.';
+        }
 
+        return $this->apiResponse($resource, $data);
     }
 
     public function deleteAt($resource = null, $data = [])
     {
-
-    }
-
-    public function showError($data = [])
-    {
         $this->success = false;
-        return $this->apiResponse(null, $data);
+        $this->code = 404;
+        if (is_object($resource)) {
+            $this->code = 200;
+            $this->success = true;
+        } else {
+            $this->msg = 'update Error.';
+        }
+
+        return $this->apiResponse($resource, $data);
     }
 
     public function validError($errors = null, $data = [])
