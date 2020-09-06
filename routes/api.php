@@ -14,15 +14,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('login', 'UserController@login');
-Route::post('register', 'UserController@register');
+Route::post('/user/login', 'UserController@login');
+//Route::post('register', 'UserController@register');
+
 Route::group(['middleware' => 'auth:api'], function () {
-    Route::get('deneme', 'UserController@deneme');
+    Route::get('/user/getToken', 'UserController@getToken');
+    Route::get('user/deneme', 'UserController@deneme');
 });
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
 
 Route::apiResources([
         'product' => 'Api\ProductController',

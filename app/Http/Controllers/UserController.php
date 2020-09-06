@@ -2,25 +2,61 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Api\ApiController;
 use App\User;
+
+//use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 
-class UserController extends Controller
+class UserController extends ApiController
 {
     public function login()
     {
         if (Auth::attempt(['email' => request('email'), 'password' => request('password')])) {
             $user = Auth::user();
-            $success['token'] = $user->createToken('MyApp')->accessToken;
-            $success['user_id'] = $user->id;
-            $success['email'] = $user->email;
-            $success['name'] = $user->name;
-            return response()->json($success, 200);
+
+            $accessToken = $user->createToken('Token')->accessToken;
+
+
+            $data['id'] = $user->id;
+            $data['email'] = $user->email;
+            $data['username'] = 'username';
+            $data['fullname'] = $user->name;
+
+
+            $data['accessToken'] = $accessToken;
+            $data['refreshToken'] = $accessToken;
+            $data['roles'] = [1];
+            $data['pic'] = './assets/media/users/300_25.jpg';
+
+            return response()->json($data, 200);
         } else {
-            return response()->json('Email veya şifre yanlış.', 401);
+            return $this->validError(['Bilgilerinizi Kontrol Ediniz'], ['code' => 401, 'msg' => 'Bilgilerinizi Kontrol Ediniz']);
         }
+    }
+
+
+    public function getToken()
+    {
+        $user = Auth::user();
+
+        $accessToken = $user->createToken('Token')->accessToken;
+
+        $data['id'] = $user->id;
+        $data['email'] = $user->email;
+        $data['username'] = 'username';
+        $data['fullname'] = $user->name;
+
+
+        $data['accessToken'] = $accessToken;
+        $data['refreshToken'] = $accessToken;
+        $data['roles'] = [1];
+        $data['pic'] = './assets/media/users/300_25.jpg';
+
+        return response()->json($data, 200);
+
     }
 
     public function register(Request $request)
