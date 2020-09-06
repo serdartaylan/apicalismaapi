@@ -66,7 +66,7 @@ class ProductController extends ApiController
         $product = Product::find($id);
         if ($product)
             $product = ProductResource::make($product);
-        
+
         return $this->showOne($product, ['code' => 404, 'msg' => 'Ürün Bulunamadı. #1']);
 
         /*
@@ -86,11 +86,11 @@ class ProductController extends ApiController
     /**
      * Store a newly created resource in storage.
      *
-     * @param ProductStoreRequest $request
+     * @param Request $request
      * @param Product $product
      * @return JsonResponse
      */
-    public function update(ProductStoreRequest $request, Product $product)
+    public function update(Request $request, Product $product)
     {
 
         Validator::make($request->all(), []);
@@ -99,6 +99,7 @@ class ProductController extends ApiController
         $product->slug = Str::slug($request->input('name'));
         $product->price = $request->input('price');
         $product->description = $request->input('description');
+        $product->description = $request->description;
         $product->save();
 
         return $this->updateAt(ProductResource::make($product), ['msg' => 'ürün güncellendi']);
@@ -112,7 +113,8 @@ class ProductController extends ApiController
      */
     public function destroy(Product $product)
     {
-        $this->destroy($product);
-        return $this->deleteAt([ProductResource::make($product)], ['msg' => 'ürün silindi']);
+        $productOld = ProductResource::make($product);
+        $product->delete();
+        return $this->deleteAt($productOld, ['msg' => 'ürün silindi']);
     }
 }
