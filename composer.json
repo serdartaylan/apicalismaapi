@@ -14,8 +14,7 @@
         "guzzlehttp/guzzle": "^6.3",
         "laravel/framework": "^7.24",
         "laravel/passport": "^9.3",
-        "laravel/tinker": "^2.0",
-        "marcin-orlowski/laravel-api-response-builder": "8.00"
+        "laravel/tinker": "^2.0"
     },
     "require-dev": {
         "facade/ignition": "^2.0",
