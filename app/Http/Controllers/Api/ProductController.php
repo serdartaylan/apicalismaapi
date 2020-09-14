@@ -6,14 +6,12 @@ use App\Http\Requests\ProductStoreRequest;
 use App\Http\Resources\ProductsResource;
 use App\Http\Resources\ProductResource;
 use App\Product;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
-class ProductController extends
-
+class ProductController extends ApiController
 {
     /**
      * Display a listing of the resource.
